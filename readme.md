@@ -8,3 +8,5 @@ Sauce Library is a WordPress Plugin born as a collection of CSS helper classes a
 * Integrate modal system (opens on click or on load)
 * Loads popular and lightweight JS libraries via cdnjs
 * Adds useful UI perks activated via simple css classes that works virtually on any HTML structure
+* post_context class is useful to reuse theme-defined templates via query_posts
+* post_exclude class allows automatic multiple loop in pages preventing post repetition

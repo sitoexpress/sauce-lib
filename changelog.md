@@ -1,6 +1,11 @@
 # Sauce Library Changelog
 This changelog will still be used to keep track of changes, as the github repo won't necessarily follow our internal release history.
-* Current release: 0.5.6
+* Current release: 0.6.0
+
+## v.0.6.0
+* post_context:   allows saving post context in order to reuse theme defined templates via query_posts
+* post_exclude:   automatically exclude already displayed posts in pages (posts must use the_loop to show up)
+* controller:     deleted some unused methods
 
 ## v.0.5.6
 * functions:      sauce_create_popup accepts 'fullscreen' as arg
