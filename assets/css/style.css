@@ -107,8 +107,12 @@ ul.menu li.social-item a {
 	position: relative;
 	transition: 0.5s;
 	font-size: 0 !important;
-	padding: 5px;
+	padding: 0 5px;
 	text-align: center;
+}
+
+ul.menu li.social-item:last-child a {
+	margin-right: -5px;
 }
 
 ul.menu li.social-item a:before {
@@ -124,32 +128,30 @@ ul.menu li.social-item a:hover:before {
 	transition: 0.5s;
 }
 
-ul.menu li.social-item a[href*="facebook.com"]:before,
 ul.menu li.social-item a[href*="facebook.com"]:before {
 	content: "\f230";
 }
 
-ul.menu li.social-item a[href*="vimeo.com"]:before,
 ul.menu li.social-item a[href*="vimeo.com"]:before {
 	content: "\f194";
 }
 
-ul.menu li.social-item a[href*="youtube.com"]:before,
+ul.menu li.social-item a[href*="github.com"]:before {
+	content: "\f092";
+}
+
 ul.menu li.social-item a[href*="youtube.com"]:before {
 	content: "\f167";
 }
 
-ul.menu li.social-item a[href*="instagram.com"]:before,
 ul.menu li.social-item a[href*="instagram.com"]:before {
 	content: "\f16d";
 }
 
-ul.menu li.social-item a[href*="linkedin.com"]:before,
 ul.menu li.social-item a[href*="linkedin.com"]:before {
 	content: "\f08c";
 }
 
-ul.menu li.social-item a[href*="twitter.com"]:before,
 ul.menu li.social-item a[href*="twitter.com"]:before {
 	content: "\f081";
 }
@@ -803,6 +805,11 @@ article {
 
 .popup-trigger {
 	cursor: pointer;
+	display: inline-block;
+}
+
+.popup-trigger .button {
+	text-align: center;
 }
 
 .popup-trigger img {

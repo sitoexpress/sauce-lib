@@ -20,11 +20,13 @@ class post_exclude {
     return $shown_posts;
   }
 
-  function exclude_shown($query) {
+	function exclude_shown($query) {
     if(is_admin()) return;
-    $exclude_ids = $this->get_shown_posts();
-    if(!empty($exclude_ids)) {
-      $query->set('post__not_in', $exclude_ids);
+    $to_exclude = $this->get_shown_posts();
+    if(!empty($to_exclude)) {
+			$excluded = ($query->get('post__not_in')) ? $query->get('post__not_in') : array();
+			$to_exclude = array_unique(array_merge($excluded, $to_exclude));
+      $query->set('post__not_in', $to_exclude);
     }
   }
 

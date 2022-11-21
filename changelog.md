@@ -1,6 +1,11 @@
 # Sauce Library Changelog
 This changelog will still be used to keep track of changes, as the github repo won't necessarily follow our internal release history.
-* Current release: 0.6.0
+* Current release: 0.6.1
+
+## v.0.6.1
+* style.css:      added github icon and tidied up some repeated css
+* style.css:      popup-trigger inline-block to avoid 100% trigger width
+* post_exclude:   fixed exclude_shown method did not account for other exclusions applied via pre_get_posts
 
 ## v.0.6.0
 * post_context:   allows saving post context in order to reuse theme defined templates via query_posts

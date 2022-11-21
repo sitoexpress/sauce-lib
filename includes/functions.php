@@ -26,7 +26,7 @@ function sauce_create_popup($content, $trigger, $settings = null) {
     }
   }
 
-  $classes['trigger'][] = $settings['trigger_align'];
+  $classes['wrap'][] = $settings['trigger_align'];
   if($settings['fullscreen']) $classes['popup'][] = 'fullscreen';
 
   apply_filters('sauce_popup_classes', $classes, $settings);
