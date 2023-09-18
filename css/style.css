@@ -1,0 +1,1669 @@
+/*--------------------------------------------------------------
+# Sauce Lib
+#
+# Adds several JS/CSS facilities to any theme
+# Born from basilblank theme by Francesco Fortino
+# Splitting Theme/Plugin function still in progress
+#
+# v.0.4.5
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+## A AUTO ICONS for tel, mailto and WhatsApp
+--------------------------------------------------------------*/
+
+.auto-icons p {
+	margin-bottom: 0.5em;
+}
+
+.auto-icons a[href*="tel:"],
+.auto-icons a[href*="mailto:"],
+.auto-icons a[href*="api.whatsapp.com:"],
+.auto-icons a[href*="/maps/place/"] {
+	position: relative;
+	padding-left: 2em;
+	display: inline-block;
+}
+
+.auto-icons a[href*="tel:"]:before,
+.auto-icons a[href*="mailto:"]:before,
+.auto-icons a[href*="api.whatsapp.com:"]:before,
+.auto-icons a[href*="/maps/place/"]:before {
+	position: absolute;
+	left: 0;
+	top: 0;
+	text-align: center;
+}
+
+.auto-icons a[href*="tel:"]:before {
+	font-family: 'FontAwesome';
+	content: "\f095";
+	width: 2em;
+	display: inline-block;
+}
+
+.auto-icons a[href*="mailto:"]:before {
+	font-family: 'FontAwesome';
+	content: "\f0e0";
+	width: 2em;
+	display: inline-block;
+}
+
+.auto-icons a[href*="api.whatsapp.com"]:before {
+	font-family: 'FontAwesome';
+	content: "\f232";
+	width: 2em;
+	display: inline-block;
+}
+
+.auto-icons a[href*="/maps/place/"]:before {
+	font-family: 'FontAwesome';
+	content: "\f041";
+	width: 2em;
+	display: inline-block;
+}
+
+.auto-icons a[href*="api.whatsapp.com"] + a[href*="tel:"] {
+	margin-left: 0.8em;
+}
+
+.auto-icons a[href*="tel:"] + a[href*="mailto:"] {
+	margin-left: 0.8em;
+}
+
+@media screen and (max-width: 768px) {
+	.auto-icons a[href*="api.whatsapp.com"] + a[href*="tel:"] {
+		margin-left: 0;
+	}
+	.auto-icons a[href*="api.whatsapp.com"] {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		font-size: 0.9em;
+		width: 100%;
+		background: #FFF;
+		padding: 10px 0;
+		-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+	}
+	.auto-icons a[href*="api.whatsapp.com"]:before {
+		font-size: 16px;
+		width: 2.2em;
+	}
+}
+
+/*--------------------------------------------------------------
+## Social Icons: just add .social-item class to menu item
+--------------------------------------------------------------*/
+
+ul.menu li.social-item {
+	display: inline-block;
+}
+
+ul.menu li.social-item a {
+	text-decoration: none;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
+	font-size: 0 !important;
+	padding: 0 5px;
+	text-align: center;
+}
+
+ul.menu li.social-item:last-child a {
+	margin-right: -5px;
+}
+
+ul.menu li.social-item a:before {
+	font-family: "FontAwesome";
+	text-align: center;
+	transition: 0.5s ease-in-out;
+	font-size: 1.1rem;
+	font-weight: 400;
+	display: inline-block;
+}
+
+ul.menu li.social-item a:hover:before {
+	transition: 0.5s;
+}
+
+ul.menu li.social-item a[href*="facebook.com"]:before {
+	content: "\f230";
+}
+
+ul.menu li.social-item a[href*="vimeo.com"]:before {
+	content: "\f194";
+}
+
+ul.menu li.social-item a[href*="github.com"]:before {
+	content: "\f092";
+}
+
+ul.menu li.social-item a[href*="youtube.com"]:before {
+	content: "\f167";
+}
+
+ul.menu li.social-item a[href*="instagram.com"]:before {
+	content: "\f16d";
+}
+
+ul.menu li.social-item a[href*="linkedin.com"]:before {
+	content: "\f08c";
+}
+
+ul.menu li.social-item a[href*="twitter.com"]:before {
+	content: "\f081";
+}
+
+/*--------------------------------------------------------------
+## Helper classes
+--------------------------------------------------------------*/
+
+.relative {
+	position: relative;
+}
+
+.automargin {
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.autoleft {
+	margin-left: auto !important;
+}
+
+.autoright {
+	margin-right: auto !important;
+}
+
+.padded {
+	padding: 30px 30px;
+}
+
+.hpadded {
+	padding-left: 30px !important;
+	padding-right: 30px !important;
+}
+
+.vpadded {
+	padding-top: 30px !important;
+	padding-bottom: 30px !important;
+}
+
+.no-margin-bottom * {
+	margin-bottom: 0 !important;
+}
+
+.no-margin-top * {
+	margin-top: 0 !important;
+}
+
+.no-margin * {
+	margin: 0 !important;
+}
+
+.no-margin-top-bottom * {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.no-margin-top-bottom p:last-child {
+	margin-bottom: 1.5em !important;
+}
+
+.no-margin-top-bottom img {
+	margin-bottom: 1em !important;
+}
+
+.hide {
+	display: none !important;
+}
+
+.round-img img,
+.round {
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.negative-margin-top {
+	margin-top: -30px;
+}
+
+.inline-row .so-panel {
+	width: auto;
+	display: inline-block;
+	vertical-align: middle;
+	margin-bottom: 0 !important;
+}
+
+.inline-row .so-panel + .so-panel,
+.inline-row .so-panel ~ .so-panel {
+	margin-left: 30px;
+}
+
+.no-builder-margin .so-panel,
+.no-builder-margin .panel-grid,
+.no-builder-margin .panel-grid-cell,
+.no-panel-margin .so-panel,
+.no-grid-margin .panel-grid,
+.no-cell-margin .panel-grid-cell {
+	margin-bottom: 0 !important;
+}
+
+.stretched {
+	width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+	max-width: none !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+}
+
+@media screen and (max-width: 768px) {
+	.hide-mobile {
+		display: none !important;
+	}
+}
+
+/*--------------------------------------------------------------
+## Object Fit Row: add .object-fit class to cell or row
+## and images will be fitted according to 'cover' setting
+--------------------------------------------------------------*/
+
+div.object-fit[class*="panel-"] {
+	align-items: stretch !important;
+}
+
+.object-fit * {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch !important;
+  width: 100%;
+	height: 100%;
+}
+
+.object-fit .so-widget-sow-image {
+  position: relative !important;
+  height: 100% !important;
+}
+
+.object-fit img {
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: cover;
+}
+
+/* Fix for styles appearing in wp previews as text because idk */
+
+.object-fit style {
+	display: none;
+}
+
+/*--------------------------------------------------------------
+## Inline Panels - Makes a single SOPB cell inlined
+--------------------------------------------------------------*/
+
+
+.inline-panels > .so-panel,
+.inline-panels > .panel-grid-cell {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.inline-panels.center > .so-panel,
+.inline-panels.center > .panel-grid-cell {
+  justify-content: center;
+	align-items: center;
+}
+
+.inline-panels.right > .so-panel,
+.inline-panels.right > .panel-grid-cell {
+	justify-content: flex-end;
+}
+
+.inline-panels.bottom > .so-panel,
+.inline-panels.bottom > .panel-grid-cell {
+	align-items: flex-end;
+}
+
+.inline-panels > .panel-grid-cell > .so-panel {
+  margin-bottom: 0 !important;
+}
+
+.inline-panels > .panel-grid-cell > .so-panel + .so-panel {
+  margin-left: 20px;
+}
+
+@media screen and (max-width: 768px) {
+	.inline-panels > .panel-grid-cell > .so-panel,
+	.inline-panels > .panel-grid-cell > .so-panel .ow-button-base a {
+	  width: 100%;
+	}
+	.inline-panels .ow-button-base a.ow-icon-placement-left .sow-icon-image,
+	.inline-panels .ow-button-base a.ow-icon-placement-left [class^="sow-icon-"] {
+		float: none;
+		margin: 0 0 10px 0;
+	}
+}
+
+/*--------------------------------------------------------------
+## Inline Menu - Just add '.inline-menu' class if you want a straight inline menu
+--------------------------------------------------------------*/
+
+
+.inline-menu ul,
+.inline-menu .menu {
+	text-align: right;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.inline-menu ul li,
+.inline-menu .menu li {
+	display: inline-block !important;
+}
+
+.inline-menu ul li a,
+.inline-menu .menu li a {
+	font-weight: normal;
+	padding: 0;
+	display: inline-block;
+}
+
+.inline-menu ul li + li,
+.inline-menu .menu li + li {
+	margin-left: 20px;
+}
+
+@media screen and (max-width: 768px) {
+	.inline-menu ul,
+	.inline-menu .menu {
+		text-align: center;
+	}
+}
+
+/*--------------------------------------------------------------
+## Centered Menu - Centers any inline menu li's
+--------------------------------------------------------------*/
+
+.inline-menu.centered-menu .menu,
+.centered-menu .menu {
+	text-align: center;
+	width: 100%;
+}
+
+.inline-menu.centered-menu .menu li + li::before {
+	content: '/';
+	font-size: 1rem;
+}
+
+/*--------------------------------------------------------------
+## Inline Button Menu - Just add '.inline-menu .button-menu' class if you want a straight inline menu
+## with a flat button-like look
+--------------------------------------------------------------*/
+
+.inline-menu.button-menu ul,
+.inline-menu.button-menu .menu {
+	text-align: center;
+}
+
+.inline-menu.button-menu ul li,
+.inline-menu.button-menu .menu li {
+	margin-right: 10px;
+}
+
+.inline-menu.button-menu ul li:last-child,
+.inline-menu.button-menu .menu li:last-child {
+	margin-right: 0;
+}
+
+.button-menu ul li::before,
+.button-menu .menu li::before {
+	display: none;
+}
+
+.button-menu ul li a,
+.button-menu .menu li a,
+.inline-menu.button-menu .menu li a {
+	border: 3px solid #FFF;
+	padding: 0.7em 1em;
+}
+
+.button-menu:not(.inline-menu) ul li,
+.button-menu:not(.inline-menu) .menu li,
+.button-menu:not(.inline-menu) .menu li a {
+	display: block;
+}
+
+.button-menu:not(.inline-menu) ul,
+.button-menu:not(.inline-menu) .menu {
+	padding-left: 0;
+}
+
+.button-menu:not(.inline-menu) ul li + li,
+.button-menu:not(.inline-menu) .menu li + li {
+	margin-top: 15px;
+}
+
+@media screen and (max-width: 768px) {
+	.inline-menu.button-menu ul li,
+	.inline-menu.button-menu .menu li  {
+		margin: 0 0 10px 0;
+	}
+	.inline-menu.button-menu ul li:last-child,
+	.inline-menu.button-menu .menu li:last-child {
+		margin-bottom: 0;
+	}
+}
+
+/*--------------------------------------------------------------
+## Basic Grid (useful f.eg in CF7 forms)
+--------------------------------------------------------------*/
+
+.row {
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+	margin-left: -15px;
+	margin-right: -15px;
+}
+
+.col {
+	min-height: 0.125rem;
+	padding: 15px
+}
+
+.col.col-1,
+.col.col-2,
+.col.col-3,
+.col.col-4,
+.col.col-5,
+.col.col-6,
+.col.col-7,
+.col.col-8,
+.col.col-9,
+.col.col-10,
+.col.col-11,
+.col.col-12 {
+  width: 100%;
+}
+
+.row::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+@media only screen and (min-width: 540px) {  /* 540px */
+
+}
+
+@media only screen and (min-width: 811px) {  /* 720px */
+
+	.row {
+
+	}
+
+	.col.col-1 {
+		width: 8.333%;
+	}
+
+	.col.col-2 {
+		width: 16.666%;
+	}
+
+	.col.col-3 {
+		width: 24.999%;
+	}
+
+	.col.col-4 {
+		width: 33.333%;
+	}
+
+	.col.col-5 {
+		width: 41.666%;
+	}
+
+	.col.col-6 {
+		width: 50%;
+	}
+
+	.col.col-7 {
+		width: 58.333%;
+	}
+
+	.col.col-8 {
+		width: 66.666%;
+	}
+
+	.col.col-9 {
+		width: 75%;
+	}
+
+	.col.col-10 {
+		width: 83.333%;
+	}
+
+	.col.col-11 {
+		width: 91.666%;
+	}
+
+	.col.col-12 {
+		width: 100%;
+	}
+
+	.hidden-sm {
+		display: block;
+	}
+}
+
+@media only screen and (min-width: 960px) { /* 960px */
+
+}
+
+/*--------------------------------------------------------------
+## Input Elements / CF7 Elements
+--------------------------------------------------------------*/
+
+div.wpcf7 {
+	position: relative;
+}
+
+div.wpcf7 .row {
+	width: auto;
+}
+
+.col .wpcf7-form-control-wrap,
+.col input[type="text"],
+.col input[type="tel"],
+.col input[type="email"],
+.col textarea,
+.col select {
+  width: 100%;
+}
+
+.col span.wpcf7-list-item + span.wpcf7-list-item {
+  margin-top: 10px;
+}
+
+.col:not(.checkbox) + .col.checkbox {
+	margin-top: 20px;
+}
+
+textarea {
+  max-height: 125px;
+}
+
+/* Checkboxes & Acceptance */
+
+span.wpcf7-acceptance,
+span.wpcf7-checkbox {
+  display: inline-block;
+  font-size: 0.9em;
+	margin: 0;
+}
+
+span.wpcf7-acceptance:not(.optional) span.wpcf7-list-item-label::after {
+  content: '*';
+  color: red;
+}
+
+span.wpcf7-list-item {
+  margin-left: 0;
+}
+
+span.wpcf7-list-item input,
+span.wpcf7-list-item span.wpcf7-list-item-label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+span.wpcf7-list-item input {
+  width: 40px;
+  text-align: center;
+}
+
+span.wpcf7-list-item span.wpcf7-list-item-label  {
+  width: calc(100% - 40px);
+  line-height: 1.25;
+}
+
+.hidden-row {
+	height: 0;
+	overflow: hidden;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.form-group label.error,
+span.wpcf7-not-valid-tip {
+	position: absolute;
+	font-size: 10px;
+	border: 2px solid #e22328;
+	padding: 2px 4px;
+	border-radius: 5px;
+	line-height: 1.15;
+	top: 25px;
+	right: -15px;
+	z-index: 9;
+	width: auto;
+	background: #FFF;
+	-webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.33);
+	-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.33);
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.33);
+}
+
+.wpcf7 form .wpcf7-response-output {
+	position: absolute;
+	font-size: 0.7em;
+	border: 2px solid #e22328;
+	padding: 2px 8px;
+	border-radius: 5px;
+ 	margin: 0;
+	bottom: -50px;
+	width: 100%;
+	right: 0;
+	left: 0;
+	width: auto;
+	background: #FFF;
+	color: #909090;
+	-webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.33);
+	-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.33);
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.33);
+}
+
+.icon-label {
+	position: relative;
+	padding-left: 40px !important;
+}
+
+.icon-label label {
+	position: absolute;
+	width: 40px;
+	height: 100%;
+	font-size: 0;
+	background: #FFF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	left: 0;
+	top: 0;
+	border-bottom: 2px solid #e0e0e0;
+}
+
+.icon-label label:after {
+	font-family: 'FontAwesome';
+	display: block;
+	color: #1d1d1d;
+	font-size: 1rem;
+}
+
+.icon-label label[for='address']:after {
+	content: '\f041';
+}
+
+.icon-label label[for='datetime_match']:after {
+	content: '\f017';
+}
+
+body .grecaptcha-badge {
+	display: none !important;
+}
+
+/*--------------------------------------------------------------
+## Select2 Custom
+--------------------------------------------------------------*/
+
+select {
+	width: 100%;
+}
+
+.select2-container {
+	width: 100%;
+}
+
+body .select2 {
+	border: 1px solid #ccc;
+}
+
+body .select2-dropdown {
+	border: 1px solid #ccc;
+	border-radius: 0;
+	width: 100%;
+}
+
+.woocommerce form .form-row.woocommerce-validated .select2-container,
+.woocommerce form .form-row.woocommerce-validated select,
+.wpsl-radius-dropdown,
+.wpsl-dropdown {
+	border: 1px solid #CCC;
+	border-radius: 0;
+}
+
+.select2-container--default .selection .select2-selection--single {
+	border-radius: 0;
+	border: none;
+}
+
+.woocommerce #content table.cart td.actions .input-text,
+.woocommerce table.cart td.actions .input-text,
+.woocommerce-page #content table.cart td.actions .input-text,
+.woocommerce-page table.cart td.actions .input-text {
+	width: auto;
+}
+
+.select2-container .selection .select2-selection--single {
+	height: auto;
+	margin: 0;
+}
+
+.select2-container--default .selection .select2-selection--single .select2-selection__rendered {
+	line-height: 1.5;
+	padding-left: 0;
+}
+
+.select2-container--default .selection .select2-selection--single .select2-selection__arrow {
+	line-height: 1.5;
+	height: 100%;
+	width: 30px;
+}
+
+.select2-container {
+	max-width: 100%;
+}
+
+.select2-container .select2-dropdown {
+	z-index: 99999;
+}
+
+/*--------------------------------------------------------------
+## Popup System
+--------------------------------------------------------------*/
+
+article {
+	position: relative;
+}
+
+.wpcf7-form-control-wrap {
+	position: relative;
+}
+
+.popup-trigger {
+	cursor: pointer;
+	display: inline-block;
+}
+
+.popup-trigger .button {
+	text-align: center;
+}
+
+.popup-trigger img {
+	display: block;
+}
+
+.popup-parent {
+	display: none;
+}
+
+.simplebar-content {
+	width: 100%;
+}
+
+#modalpopup .popup-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#popup-buttons .button {
+	box-sizing: border-box;
+	font-size: 0.9em;
+	font-weight: 700;
+	padding: 0.7em 1.1em;
+	background: #FFF;
+	color: #404040;
+	border: 2px solid #404040;
+	border-radius: 0;
+	box-shadow: none;
+	text-shadow: none;
+	margin: 0 10px;
+	transition: 0.5s ease-in-out;
+	display: inline-block;
+	min-width: 58px;
+}
+
+#popup-buttons .button:hover {
+	background: #404040;
+	color: #FFF;
+}
+
+#popup-buttons .button.green {
+	border-color: #00ff17;
+}
+
+#popup-buttons .button.green:hover {
+	background: #00ff17;
+	color: #FFF;
+}
+
+#popup-buttons .button.red {
+	border-color: #ff3333;
+}
+
+#popup-buttons .button.red:hover {
+	background: #ff3333;
+	color: #FFF;
+}
+
+#modalpopup .popup-content > div {
+	text-align: center;
+}
+
+#modalpopup .popup-content h1 {
+	margin-top: 0;
+}
+
+.brz .brz-wrapper.popup-css,
+.brz .brz-wrapper.readypopup,
+.popup-css, .readypopup {
+	font-size: 1em;
+	cursor: default;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	transition: 0.5s ease-in-out;
+	height: 0;
+	overflow: hidden;
+}
+
+.elementor-editor-active .popup-css,
+.elementor-editor-active .readypopup {
+	position: static;
+	height: auto;
+}
+
+.popup-wrapper {
+	height: 100%;
+	position: relative;
+}
+
+body.brz > .brz-columns.popup-css,
+body.brz > .brz-columns.readypopup,
+body.brz > .brz-wrapper.popup-css,
+body.brz > .brz-wrapper.readypopup,
+body > .popup-css,
+body > .readypopup {
+	z-index: 99999;
+	display: flex;
+	position: fixed;
+	justify-content: center;
+ 	align-items: center;
+	opacity: 0;
+	width: 100%;
+	height: auto;
+  max-height: 520px;
+  max-width: 640px;
+  margin: auto !important;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+}
+
+.popup-background,
+.readypopup-background,
+.modal-background {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0,0,0,0.5);
+	top: 0;
+	left: 0;
+	transition: 0.5s ease-in-out;
+	z-index: 99999;
+}
+
+body > .readypopup .popup-wrapper,
+body > .popup-css .popup-wrapper {
+	position: relative;
+	width: 100%;
+	display: block;
+}
+
+body > .popup-css p {
+	font-size: 1em;
+}
+
+.lock-body {
+    position: fixed;
+    overflow-y: scroll;
+    width: 100%;
+    margin-top: 0;
+}
+
+.popup-zindex {
+	z-index: 99999;
+}
+
+.popup-content {
+    max-width: 100%;
+    min-width: 320px;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    background: #FFF;
+    padding: 0px;
+    position: relative;
+    cursor: default;
+    overflow: auto;
+}
+
+.popup-close, .readypopup-close {
+	position: absolute;
+	top: 0;
+	right: 10px;
+	cursor: pointer;
+}
+
+.popup-close::before,
+.readypopup-close::before {
+	display: inline-block;
+	padding: 20px;
+	font-size: 28px;
+	content: '\f00d';
+	font-family: 'FontAwesome';
+}
+
+.popup-css .popup-content > div:not(.simplebar-content):first-child,
+.popup-css .popup-content .simplebar-content > div {
+	padding: 40px;
+	width: 100%;
+}
+
+.popup-content:not(.simplebar-scrollable-y) .simplebar-content-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.popup-css .popup-content .simplebar-content > div.brz-wrapper {
+	padding: 0;
+}
+
+@media screen and (max-width: 1180px) {
+
+	body > .popup-css,
+	body > .readypopup {
+		overflow: auto;
+		height: auto;
+		padding: 15px;
+	}
+
+	.popup-css,
+	.readypopup {
+		position: static;
+		width: 100%;
+		max-width: 100%;
+		min-height: 100%;
+		left: 0;
+		top: 0;
+	}
+
+	.popup-content ul {
+		margin: 0;
+		padding-left: 25px;
+	}
+
+	.popup-close::before,
+	.readypopup-close::before {
+		padding: 15px 20px;
+	}
+
+}
+
+@media screen and (max-width: 768px)  {
+
+	body > .popup-css,
+	body > .readypopup {
+		padding: 10px;
+	}
+
+	.popup-content {
+		position: static;
+		width: 100%;
+		max-width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;
+	}
+
+	.popup-content .widget-title {
+		padding: 20px 20px 0px 20px;
+	}
+
+	.popup-content ul {
+		margin: 0;
+		padding-left: 25px;
+	}
+
+	.popup-close, .readypopup-close {
+		right: 0;
+	}
+
+	.popup-close::before,
+	.readypopup-close::before {
+	    padding: 10px 15px;
+	    font-size: 20px;
+	}
+
+	.popup-css .popup-content > div:not(.simplebar-content):first-child,
+	.popup-css .popup-content .simplebar-content > div {
+		padding: 30px;
+	}
+
+	.popup-css .popup-content .simplebar-content > div.brz-wrapper {
+		padding: 0;
+	}
+
+}
+
+@media screen and (max-width: 460px) {
+	.popup-css .popup-content > div:not(.simplebar-content):first-child,
+	.popup-css .popup-content .simplebar-content > div {
+		padding: 15px;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.popup-content {
+		min-width: 0;
+	}
+}
+
+/*--------------------------------------------------------------
+## Popup Fullscreen
+--------------------------------------------------------------*/
+
+/** Normal **/
+
+body > .popup-css.fullscreen {
+  max-width: 99%;
+  max-height: 98%;
+}
+
+body .popup-close::before,
+body .readypopup-close::before {
+
+}
+
+@media screen and (max-width: 640px) {
+  .popup-css.fullscreen .popup-content:not(.panel-layout) .textwidget {
+    padding: 0;
+  }
+	.popup-css.fullscreen .popup-content > div:not(.simplebar-content):first-child,
+	.popup-css.fullscreen .popup-content .simplebar-content > div {
+		padding: 10px 20px;
+	}
+  body > .popup-css.fullscreen {
+    font-size: 0.9em;
+  }
+  body > .popup-css.fullscreen .so-panel {
+    margin-bottom: 15px !important;
+  }
+}
+
+/** Video **/
+
+body > .popup-css.fullscreenvideo {
+	max-width: 100%;
+	max-height: 100%;
+	width: 100%;
+	height: 100%;
+}
+
+.video-controls {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	background: #FFF;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+.video-controls div {
+	display: inline-block;
+}
+
+.video-controls div + div {
+	margin-left: 30px;
+}
+
+.video-controls a:not([class*="c-btn"]) {
+	border-bottom-width: 2px;
+	border-bottom-color: #404040;
+	transition: 0.5s ease-in-out;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	font-size: 1.35em;
+	color: #404040;
+	cursor: pointer;
+}
+
+.video-controls a:hover {
+	border-bottom-color: #404040;
+	color: #404040;
+}
+
+@media screen and (max-width: 768px)  {
+
+	body > .popup-css.fullscreenvideo {
+		padding: 0;
+	}
+
+	body > .popup-css.fullscreenvideo .popup-content {
+
+	}
+
+}
+
+/*--------------------------------------------------------------
+## FullHeight Slider for SiteOrigin HERO
+--------------------------------------------------------------*/
+
+.fullheight {
+    position: relative;
+		overflow-y: hidden;
+}
+
+.flex-vertical-align,
+.fullheight.vertical-hero .sow-slider-image {
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+}
+
+.flex-vertical-align.flex-column {
+	flex-direction: column;
+}
+
+.fullheight.vertical-hero .sow-slider-base ul.sow-slider-images li.sow-slider-image .sow-slider-image-container {
+	position: relative;
+}
+
+.showarrow {
+	position: relative;
+}
+
+/* These classe should help LCP & CLS */
+
+.height-100 {
+	height: 100vh;
+}
+
+.height-95 {
+	height: 95vh;
+}
+
+.height-90 {
+	height: 90vh;
+}
+
+.height-80 {
+	height: 80vh;
+}
+
+.height-70 {
+	height: 70vh;
+}
+
+.max-1024 {
+	max-width: 1024px;
+}
+
+.max-1280 {
+	max-width: 1280px;
+}
+
+.max-960 {
+	max-width: 960px;
+}
+
+.max-700 {
+	max-width: 700px;
+}
+
+.max-640 {
+	max-width: 640px;
+}
+
+/* End LCP & CLS Helpers */
+
+@keyframes fade-updown {
+	0%   {opacity: 0; transform: translateY(-5px);}
+	50%  {opacity: 1; }
+	100% {opacity: 0; transform: translateY(5px);}
+}
+
+.fade-updown {
+	-webkit-animation:fade-updown 2.5s ease infinite;
+	-moz-animation:fade-updown 2.5s ease infinite;
+	animation: fade-updown 2.5s ease infinite;
+}
+
+.bottom-circle {
+	border-radius: 50%;
+	border: 2px solid transparent;
+	bottom: 5%;
+	left: calc(50% - 40px);
+	position: absolute;
+	text-align: center;
+	width: 80px;
+	height: 80px;
+	cursor: pointer;
+	transition: 0.5s;
+	z-index: 151;
+	background-color: rgba(0,0,0,0);
+}
+
+#circle2 {
+	position: static;
+}
+
+.bottom-arrow {
+	width: 100%;
+	height: 100%;
+	font-family: 'GeneratePress';
+	display: table;
+}
+
+.animation {
+    -webkit-animation:fade-updown 1.25s ease infinite;
+    -moz-animation:fade-updown 1.25s ease infinite;
+    animation: fade-updown 1.25s ease infinite;
+}
+
+.bottom-arrow::before {
+	content: '\f107';
+	font-size: 48px;
+	text-align: center;
+	color: #FFF;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.bottom-circle a {
+	text-decoration: none;
+	outline: none !important;
+	cursor: pointer;
+}
+
+@media screen and (max-height: 640px) {
+
+	body .fullheight.no-fullheight-mobile {
+		height: auto !important;
+		justify-content: top !important;
+		padding-bottom: 60px !important;
+		padding-top: 30px !important;
+	}
+}
+
+/*--------------------------------------------------------------
+## longerBox
+--------------------------------------------------------------*/
+
+.longer-wrap .widget_sow-editor {
+	margin-bottom: 15px !important;
+}
+
+.longer-css {
+	background: transparent;
+	float: none;
+	width: 100%;
+	padding: 0;
+	transition: 0.5s;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+.longer-css > div {
+	height: auto;
+	width: 100%;
+	transition: 0.5s;
+}
+
+.longer-css > div > div h3 {
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.longer-css h2 {
+	cursor: pointer;
+}
+
+.longer-css .longer-overlay {
+	height: 70%;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	position: absolute;
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 50%,rgba(255,255,255,1) 100%);
+	transition: 0.5s ease-in-out;
+}
+
+.longer-click {
+	position: relative;
+	z-index: 1;
+}
+
+.longer-plus,
+.longer-hide {
+	font-weight: bold;
+	line-height: 1;
+	font-size: 2em;
+	cursor: pointer;
+}
+
+.longer-plus::before {
+	content: '+';
+}
+
+.longer-hide::before {
+	content: '-';
+}
+
+/*--------------------------------------------------------------
+## jQuery Lightbox
+--------------------------------------------------------------*/
+
+#lightboxIframe {
+	display: none;
+}
+#overlay{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10090;
+	width: 100%;
+	height: 500px;
+	background-color: #000;
+	filter:alpha(opacity=60);
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+	display: none;
+}
+#lightbox{
+	position: absolute;
+	left: 0;
+	width: 100%;
+	z-index: 10100;/*twentyeleven keeps the header at 999...*/
+	line-height: 0;
+}
+#jqlb_spinner{
+	height:32px;
+}
+#jqlb_closelabel{
+	height:22px;
+	width:66px;
+}
+
+#lightbox a {
+	cursor: pointer;
+}
+
+#lightbox a img{ border: none; }
+
+#outerImageContainer{
+	position: relative;
+	background-color: #fff;
+	width: 300px;
+	height: 300px;
+	margin: 0 auto;
+}
+#imageContainer{
+	padding: 0;
+	text-align: center;
+}
+#jqlb_loading{
+	position: absolute;
+	top: 40%;
+	left: 0%;
+	height: 25%;
+	width: 100%;
+	line-height: 0;
+}
+#hoverNav{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 10;
+}
+#imageContainer>#hoverNav{ left: 0; }
+#hoverNav a{ outline: none; }
+
+/*** START : next / previous image links ***/
+#prevLink, #nextLink{
+	width: 45%;
+	height: 100%;
+	display: block;
+}
+#prevLink { left: 0; float: left;}
+#nextLink { right: 0; float: right;}
+#prevLink:hover, #prevLink:visited:hover {  }
+#nextLink:hover, #nextLink:visited:hover {  }
+/*** END : next / previous image links ***/
+
+/** Text styling goes below.
+I've written out the entire selector hierarchy so you can decide how specific you want your selectors to be.**/
+#imageDataContainer{
+	font: 10px Verdana, Helvetica, sans-serif;
+	background-color: #fff;
+	color: #000;
+	margin: 0 auto;
+	line-height: 1.4em;
+}
+#imageData{
+	padding:0 10px;
+}
+.ontop #imageData {
+    padding-top: 5px; /* add padding when title and caption are on top */
+}
+#imageData #imageDetails{
+	float: left;
+	text-align: left;
+	margin-bottom: 10px;
+	width: 80%; /* make room for the CLOSE-button. */
+	width: -moz-calc(100% - 80px); /* Firefox */
+	width: -webkit-calc(100% - 80px);/* WebKit */
+	width: -o-calc(100% - 80px); /* Opera */
+	width: calc(100% - 80px); /* Standard */
+}
+#imageData #imageDetails #titleAndCaption{ } /*previously: #caption*/
+#imageData #imageDetails #titleAndCaption #titleText { font-weight: bold; }
+#imageData #imageDetails #titleAndCaption #captionText { font-weight: normal; }
+#imageData #imageDetails #controls{ margin:0px; white-space: nowrap;}
+#imageData #imageDetails #controls #playPause{}
+#imageData #imageDetails #controls #numberDisplay{}
+#imageData #imageDetails #controls #downloadLink{}
+#imageData #bottomNav #bottomNavClose{ height:22px; width: 66px; float: right; margin-bottom: 10px; }
+
+body #hoverNav {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+body #prevLink,
+body #nextLink {
+    opacity: 0;
+    transition: 0.6s;
+    text-decoration: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 50%;
+}
+
+#prevLink::before,
+#nextLink::after {
+    font-family: "GeneratePress";
+    display: inline-block;
+    background: transparent;
+    border-radius: 50%;
+    width: 100%;
+    font-size: 42px;
+    color: #FFF;
+}
+
+#prevLink:before {
+    content: "\f104";
+    text-align: left;
+    padding-left: 30px;
+}
+
+#nextLink:after {
+    content: "\f105";
+    text-align: right;
+    padding-right: 30px;
+}
+
+#prevLink:hover, #prevLink:visited:hover,
+#nextLink:hover, #nextLink:visited:hover {
+    background-image: none !important;
+    opacity: 1;
+}
+
+#controls, #imageDetails {
+	display: none;
+}
+
+#lightbox #outerImageContainer {
+	background: transparent;
+	position: static;
+}
+
+#imageData #bottomNav #bottomNavClose {
+    height: 80px !important;
+    width: 80px !important;
+    float: none !important;
+    margin-bottom: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+}
+
+#bottomNavClose #jqlb_closelabel {
+	height: auto !important;
+	width: auto !important;
+	background: none;
+}
+
+#jqlb_closelabel::before {
+	font-family: 'GeneratePress';
+	content: '\f00d';
+	color: #FFF;
+	font-size: 3em;
+}
+
+body #jqlb_loading {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+body > #overlay,
+body > #lightbox {
+	z-index: 99999;
+}
+
+/*
+*  A Overlay - a parent_click quick fix
+*/
+
+.a-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+
+/*--------------------------------------------------------------
+## Animations
+--------------------------------------------------------------*/
+
+.a-disappear {
+	opacity: 0 !important;
+	visibility: hidden;
+}
+
+.a-appear {
+	opacity: 1 !important;
+	visibility: visible !important;
+}
+
+.a-down {
+	transform: translateY(25px) !important;
+}
+
+.a-up {
+	transform: translateY(-25px) !important;
+}
+
+.a-scale-1 {
+	transform: scale(1,1) !important;
+}
+
+.a-scale-0 {
+	transform: scale(0,0) !important;
+}
+
+.a-scale-y {
+	transform: scale(1,0) !important;
+}
+
+.a-scale-x {
+	transform: scale(0,1) !important;
+}
+
+.a-translate-xo {
+	transform: translateX(0) !important;
+}
+
+.a-translate-yo {
+	transform: translateY(0) !important;
+}

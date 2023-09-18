@@ -12,6 +12,8 @@ This changelog will still be used to keep track of changes, as the github repo w
 * sauce.js: localscroll works with offset or no offset.
  * use 'no-offset' class on 'localscroll' element in order to disable offset
  * 'no-offset' class needs to be placed once in page
+* sauce.js: removed do_popup_html() function
+* php: __wakeup method in singleton classes moved to public to prevent Warning in PHP 8.0
 
 ## v.0.6.2
 * longer_box:     box is now wrapped with .longer-content and button moved outside it for better customization and design

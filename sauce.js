@@ -449,6 +449,24 @@ function ready_popup() {
 	}
 }
 
+function do_popup_html(content,trigger,elem) {
+  content = (typeof content != 'string') ? content.outerHTML : content
+  var html =  "<div class='basil-do-popup'>"
+  		html += "<div>"
+  		html +=	"<div class='"+elem+" fullscreen'>"
+  		html +=	"<div>"
+  		html += "<div class='textwidget do-popup-content'>"+content+"</div>"
+  		html +=	"</div>"
+  		html +=	"</div>"
+  		html += "</div>"
+  		html += "<div class='popup-trigger'>"
+  		html +=	"<p class='button'>"+trigger+"</p>"
+  		html += "</div>"
+	    html += "</div>"
+  var obj = document.createRange().createContextualFragment(html)
+  return obj
+}
+
 function popup_system(elem) {
 
 	var body_offset_y = 0
