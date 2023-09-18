@@ -212,42 +212,45 @@ $.fn.longer_box = function(callback) {
 			var height_limit
 			var content
 			var content_height
-			var wrap_height
-			var wrap_height_new
+      var viewed_height
 
 			height_limit = get_class_value(elem, "height")
-			if(!height_limit) height_limit = 100
-      if(!$(elem).hasClass('longer-css')) $(elem).addClass('longer-css')
 
-			content = $('> div', this)
-			wrap_height = elem.outerHeight(true, true)
-			viewed_height = elem.height()
+      if(!height_limit) height_limit = 100
+
+      if(!$('.longer-content', elem).length) elem.children().wrapAll("<div class='longer-content longer-css'></div>")
+
+      content = $('.longer-content', elem)
+
+      if(!$(content).hasClass('longer-css')) $(content).addClass('longer-css')
+
+			content_height = content.outerHeight(true, true)
+			viewed_height = content.height()
 
 			if(viewed_height <= height_limit) return
 
-			$(elem).css('height', height_limit+'px')
+			$(content).css('height', height_limit+'px')
 
-      $(elem).append('<div class="longer-overlay"></div><div class="longer-click"><span class="longer-plus longer-char"></span></div>')
+      $(elem).append('<div class="longer-click"><span class="longer-plus longer-char"></span></div>')
 
       $('.longer-click, h2', elem).click(function() {
-        var parent = $(this).closest(elem);
-				parent.toggleClass('longer-open')
-				$('.longer-char', parent).toggleClass('longer-hide')
-				$('.longer-char', parent).toggleClass('longer-plus')
-				if(parent.hasClass('longer-open')) {
-					parent.css('height', wrap_height +'px')
-					$('.longer-overlay', parent).toggleClass('a-disappear')
+				content.toggleClass('longer-open')
+				$('.longer-char', elem).toggleClass('longer-hide')
+				$('.longer-char', elem).toggleClass('longer-plus')
+				if(content.hasClass('longer-open')) {
+					content.css('height', content_height +'px')
+					$('.longer-overlay', elem).toggleClass('a-disappear')
 				} else {
-					parent.css('height', height_limit +'px')
-					$('.longer-overlay', parent).toggleClass('a-disappear')
+					content.css('height', height_limit +'px')
+					$('.longer-overlay', elem).toggleClass('a-disappear')
 				}
 			})
 	}
 
 	function reset(elem) {
+
 		elem.each(function() {
-			$(this).css('height', 'auto')
-			$(this).removeClass('longer-open')
+			$('.longer-content', this).css('height', 'auto').removeClass('longer-open')
       $('.longer-overlay', this).remove()
       $('.longer-char', this).remove()
       $('.longer-click', this).remove()
@@ -372,7 +375,7 @@ function ready_popup() {
       }
 
       $('<div class="readypopup-close"></div>').appendTo($('.popup-wrapper', ready))
-      
+
 			if($('.readypopup').hasClass('fullscreenvideo')) {
 				$('<div class="video-controls"><div class="unmute"><a>Attiva audio</a></div><div class="button-close"><a>Salta il video</a></div></div>').appendTo($('.popup-wrapper', ready))
 				$('.unmute').click(function(){
@@ -466,25 +469,6 @@ function do_popup_html(content,trigger,elem) {
 
 function popup_system(elem) {
 
-	function close_popup() {
-		var popup = $('body > .actual-popup')
-		var parent = $('.popup-active')
-
-		$('.popup-background').toggleClass('a-appear a-disappear')
-		popup.toggleClass('a-appear a-disappear')
-
-		$('html').removeClass('lock-body')
-		$('body').css('margin-top', '')
-		$(window).scrollTop(body_offset_y)
-		$('.site-header').removeClass('as-scrolled')
-
-		setTimeout(function(){
-			popup.appendTo(parent)
-			parent.removeClass('popup-active')
-			$('.popup-background').unbind()
-		}, 550)
-	}
-
 	var body_offset_y = 0
 
 	var popup_trigger = elem+'-trigger'
@@ -501,19 +485,20 @@ function popup_system(elem) {
 
 	$(elem).each(function(){
 
-		$(this).addClass('a-disappear popup-css')
-		$(this).closest('.so-panel').css('margin-bottom','0')
+    var popup = $(this)
+    build(popup)
 
-    if($(".popup-content", this).length < 1) {
-        $("> div", this).addClass('popup-content').wrap('<div class="popup-wrapper"></div>')
+    if(popup.hasClass('auto')) {
+
+      var closed_cookie = get_cookie_name(popup, 'id', 'closed');
+      var is_closed =  Cookies.get(closed_cookie)
+    	var is_logged = $('.logged-in').length
+    	var ua = navigator.userAgent
+
+      if(!is_closed && ua.indexOf('bot') == -1 && ua.indexOf('Lighthouse') == -1) {
+        open(popup)
+      }
     }
-
-		$('<div class="popup-close"></div>').appendTo($('.popup-wrapper', this))
-		$('.popup-close', this).addClass(popup_close.replace(/\./g, ""))
-		$(this).attr('data-backclass', popup_bg)
-		$(this).parents().filter($('.popup-trigger').parents()).first().addClass('popup-container')
-		$(this).closest('.popup-container').find('.popup-trigger').addClass(popup_trigger.replace(/\./g, ""))
-		$(this).parent('div').addClass('popup-parent')
 
 	})
 
@@ -521,53 +506,126 @@ function popup_system(elem) {
 
 		var container = $(this).closest('.popup-container')
 		var popup = $(container).find(elem)
-		var current_bg = popup.data('backclass')
+    open(popup)
 
-		if(!popup.hasClass('actual-popup')) popup.addClass('actual-popup')
-		if(container.hasClass('popup-parent')) {
-			container.addClass('popup-active')
-		} else {
-			container.find('.popup-parent').addClass('popup-active')
-		}
+	})
+
+  $('.popup .popup-close, .popup .popup-background, .popup .popup-accept, .popup .button-close, .popup a').click(function(){
+    close()
+  })
+
+	$(".popup-trigger .lsow-social-list a").click(function(e) {
+    e.stopPropagation()
+	})
+
+  function get_cookie_name(popup, value, suffix) {
+    var value = get_class_value(popup, value)
+    return (value) ? 'popup-'+value+'-'+suffix : 'popup-'+suffix;
+  }
+
+  function build(popup) {
+
+    popup.addClass('a-disappear popup-css')
+		popup.closest('.so-panel').css('margin-bottom','0')
+
+    if($(".popup-content", popup).length < 1) {
+        $("> div", popup).addClass('popup-content').wrap('<div class="popup-wrapper"></div>')
+    }
+
+		$('<div class="popup-close"></div>').appendTo($('.popup-wrapper', popup))
+		$('.popup-close', popup).addClass(popup_close.replace(/\./g, ""))
+		popup.attr('data-backclass', popup_bg)
+		popup.parents().filter($('.popup-trigger').parents()).first().addClass('popup-container')
+		popup.closest('.popup-container').find('.popup-trigger').addClass(popup_trigger.replace(/\./g, ""))
+		popup.parent('div').addClass('popup-parent')
+
+  }
+
+  function close() {
+
+    var popup = $('body > .actual-popup')
+    var parent = $('.popup-active')
+    var $this = $(this)
+
+    $('.popup-background').toggleClass('a-appear a-disappear')
+    popup.toggleClass('a-appear a-disappear')
+
+    $('html').removeClass('lock-body')
+    $('body').css('margin-top', '')
+    $(window).scrollTop(body_offset_y)
+    $('.site-header').removeClass('as-scrolled')
+
+    setTimeout(function() {
+
+      popup.appendTo(parent)
+      parent.removeClass('popup-active')
+      $('.popup-background').unbind()
+
+      if(popup.hasClass('auto')) {
+        var closed_cookie = get_cookie_name(popup, 'id', 'closed')
+        if(!Cookies.get(closed_cookie)) {
+          var time = get_class_value(popup, 'expire')
+          var cookie_time = (time) ? parseInt(time) : 1;
+          Cookies.set(closed_cookie, '1', { expires: cookie_time })
+        }
+      }
+
+      if($this.attr('href') !== "" && typeof $this.attr('href') !== 'undefined') {
+        window.location.href = $this.attr('href')
+      }
+
+    }, 550)
+
+  }
+
+  function open(popup) {
+
+    var current_bg = popup.data('backclass')
+    var container = popup.closest('.popup-container')
+
+    if(!popup.hasClass('actual-popup')) popup.addClass('actual-popup')
+
+    if(container.hasClass('popup-parent')) {
+      container.addClass('popup-active')
+    } else {
+      container.find('.popup-parent').addClass('popup-active')
+    }
 
     if($('select', popup).hasClass('select2-hidden-accessible')) {
       $('select', popup).select2('destroy')
     }
 
-		if ($("body").height() > $(window).height()) {
-			body_offset_y = $(window).scrollTop()
+    if ($("body").height() > $(window).height()) {
+      body_offset_y = $(window).scrollTop()
       $('html').addClass('lock-body')
-			$('body').css('margin-top', -body_offset_y)
-			if($('body').hasClass('scrolled')) $('body').addClass('as-scrolled')
-		}
+      $('body').css('margin-top', -body_offset_y)
+      if($('body').hasClass('scrolled')) $('body').addClass('as-scrolled')
+    }
 
-		popup.appendTo('body')
-		$('.popup-background').addClass(current_bg.replace(/\./g, ""))
+    popup.appendTo('body')
+    $('.popup-background').addClass(current_bg.replace(/\./g, ""))
 
-		$(current_bg).click(function() {
-			close_popup()
-			if(current_bg != '.popup-background') $(this).removeClass(current_bg.replace(/\./g, ""))
-		})
+    setTimeout(function(){
+      window.requestAnimationFrame(function(){
+        popup.toggleClass('a-appear a-disappear')
+        $('.popup-background').toggleClass('a-appear a-disappear')
+      })
+    }, 100)
 
-		setTimeout(function(){
-			popup.toggleClass('a-appear a-disappear')
-			$('.popup-background').toggleClass('a-appear a-disappear')
-		}, 100)
+    setTimeout(function(){
+      window.requestAnimationFrame(function(){
+        new SimpleBar($('.popup-content', popup)[0])
+        if($('select', popup).length) { $('select', popup).select2() }
+      })
+    }, 100)
 
-		setTimeout(function(){
-      new SimpleBar($('.popup-content', popup)[0])
-			if($('select', popup).length) { $('select', popup).select2() }
-		}, 100)
+    $(current_bg).click(function() {
+      close()
+      if(current_bg != '.popup-background') $(this).removeClass(current_bg.replace(/\./g, ""))
+    })
 
-	})
+  }
 
-  $('.popup .popup-close, .popup .popup-background, .popup .popup-accept, .popup .button-close, .popup a').click(function(){
-    close_popup()
-  })
-
-	$(".popup-trigger .lsow-social-list a").click(function(e) {
-        e.stopPropagation()
-	})
 }
 
 function basil_modal() {
@@ -926,13 +984,19 @@ function tab_user(e) {
 }
 
 function enable_localscroll() {
+
+  var ls_offset = ($('.localscroll.no-offset').length) ? 0 : -Math.ceil($('.header-nav-wrap').outerHeight())
+
+  console.log(ls_offset)
+
   $('.localscroll').localScroll({
     onBefore: function() {
       this.offset = {
-        top: -$('.site-header').outerHeight(),
+        top: ls_offset,
       }
     }
   })
+
 }
 
 $(document).ready(function() {

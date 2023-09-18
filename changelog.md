@@ -1,6 +1,21 @@
 # Sauce Library Changelog
 This changelog will still be used to keep track of changes, as the github repo won't necessarily follow our internal release history.
-* Current release: 0.6.1
+* Current release: 0.6.5
+
+## v.0.6.5
+* popup_system:   slightly refactored code to include readypopup more coherently in the system. Readypopup are now called 'auto popup' and they're activated via the 'auto' class applied to a standard 'popup'. An auto popup can have two class values:
+ * 'id-{string}' which identifies the popup in question (f.eg. id-menu2)
+ * 'expire-{int}' which sets the cookie duration in days (f.eg. expire-4)
+ * An example auto popup is '<div class='popup auto id-menu2 expire-4'></div>'
+* style.css: added several CSS helper classes to improve CLS & LCP
+* style.css: some simple animation classes moved to CSS transforms
+* sauce.js: localscroll works with offset or no offset.
+ * use 'no-offset' class on 'localscroll' element in order to disable offset
+ * 'no-offset' class needs to be placed once in page
+
+## v.0.6.2
+* longer_box:     box is now wrapped with .longer-content and button moved outside it for better customization and design
+* style.css:      removed padding from .popup-content because simplebar was mad for it
 
 ## v.0.6.1
 * style.css:      added github icon and tidied up some repeated css

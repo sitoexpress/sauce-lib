@@ -237,7 +237,8 @@ ul.menu li.social-item a[href*="twitter.com"]:before {
 	margin-bottom: 0 !important;
 }
 
-.inline-row .so-panel + .so-panel {
+.inline-row .so-panel + .so-panel,
+.inline-row .so-panel ~ .so-panel {
 	margin-left: 30px;
 }
 
@@ -747,7 +748,6 @@ body .select2-dropdown {
 }
 
 .woocommerce form .form-row.woocommerce-validated .select2-container,
-.woocommerce form .form-row.woocommerce-validated input.input-text,
 .woocommerce form .form-row.woocommerce-validated select,
 .wpsl-radius-dropdown,
 .wpsl-dropdown {
@@ -994,7 +994,7 @@ body > .popup-css p {
 
 .popup-css .popup-content > div:not(.simplebar-content):first-child,
 .popup-css .popup-content .simplebar-content > div {
-	padding: 30px 50px;
+	padding: 40px;
 	width: 100%;
 }
 
@@ -1047,7 +1047,6 @@ body > .popup-css p {
 	}
 
 	.popup-content {
-		padding: 20px;
 		position: static;
 		width: 100%;
 		max-width: 100%;
@@ -1089,7 +1088,7 @@ body > .popup-css p {
 @media screen and (max-width: 460px) {
 	.popup-css .popup-content > div:not(.simplebar-content):first-child,
 	.popup-css .popup-content .simplebar-content > div {
-		padding: 0;
+		padding: 15px;
 	}
 }
 
@@ -1239,14 +1238,39 @@ body > .popup-css.fullscreenvideo {
 	height: 70vh;
 }
 
+.max-1024 {
+	max-width: 1024px;
+}
+
+.max-1280 {
+	max-width: 1280px;
+}
+
+.max-960 {
+	max-width: 960px;
+}
+
+.max-700 {
+	max-width: 700px;
+}
+
+.max-640 {
+	max-width: 640px;
+}
+
 /* End LCP & CLS Helpers */
 
 @keyframes fade-updown {
-	0%   {opacity: 0; margin-top: -5px;}
+	0%   {opacity: 0; transform: translateY(-5px);}
 	50%  {opacity: 1; }
-	100% {opacity: 0; margin-top: 5px;}
+	100% {opacity: 0; transform: translateY(5px);}
 }
 
+.fade-updown {
+	-webkit-animation:fade-updown 2.5s ease infinite;
+	-moz-animation:fade-updown 2.5s ease infinite;
+	animation: fade-updown 2.5s ease infinite;
+}
 
 .bottom-circle {
 	border-radius: 50%;
@@ -1315,13 +1339,13 @@ body > .popup-css.fullscreenvideo {
 
 .longer-css {
 	background: transparent;
-	float: left;
+	float: none;
 	width: 100%;
 	padding: 0;
 	transition: 0.5s;
 	position: relative;
 	overflow: hidden;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 
 .longer-css > div {
@@ -1349,29 +1373,17 @@ body > .popup-css.fullscreenvideo {
 	transition: 0.5s ease-in-out;
 }
 
-.longer-css .longer-click {
-	height: 60px;
-	width: 60px;
-	right: 0;
-	bottom: 0;
-	position: absolute;
+.longer-click {
+	position: relative;
 	z-index: 1;
-	cursor: pointer;
-}
-
-TBR.longer-css p {
-	margin-bottom: 0;
-	margin-top: 0;
 }
 
 .longer-plus,
 .longer-hide {
-	position: absolute;
-	right: 5px;
 	font-weight: bold;
 	line-height: 1;
 	font-size: 2em;
-	bottom: 0;
+	cursor: pointer;
 }
 
 .longer-plus::before {
@@ -1550,7 +1562,8 @@ body #nextLink {
 }
 
 #lightbox #outerImageContainer {
-	background: #0c0c0c;
+	background: transparent;
+	position: static;
 }
 
 #imageData #bottomNav #bottomNavClose {
@@ -1624,11 +1637,11 @@ body > #lightbox {
 }
 
 .a-down {
-	transform: translateY(10px) !important;
+	transform: translateY(25px) !important;
 }
 
 .a-up {
-	transform: translateY(10px) !important;
+	transform: translateY(-25px) !important;
 }
 
 .a-scale-1 {
