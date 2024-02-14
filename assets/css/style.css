@@ -71,7 +71,7 @@
 	margin-left: 0.8em;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 811px) {
 	.auto-icons a[href*="api.whatsapp.com"] + a[href*="tel:"] {
 		margin-left: 0;
 	}
@@ -261,7 +261,7 @@ ul.menu li.social-item a[href*="twitter.com"]:before {
   margin-right: -50vw !important;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 811px) {
 	.hide-mobile {
 		display: none !important;
 	}
@@ -337,7 +337,7 @@ div.object-fit[class*="panel-"] {
   margin-left: 20px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 811px) {
 	.inline-panels > .panel-grid-cell > .so-panel,
 	.inline-panels > .panel-grid-cell > .so-panel .ow-button-base a {
 	  width: 100%;
@@ -356,7 +356,6 @@ div.object-fit[class*="panel-"] {
 
 .inline-menu ul,
 .inline-menu .menu {
-	text-align: right;
 	margin: 0 !important;
 	padding: 0 !important;
 }
@@ -375,10 +374,10 @@ div.object-fit[class*="panel-"] {
 
 .inline-menu ul li + li,
 .inline-menu .menu li + li {
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 811px) {
 	.inline-menu ul,
 	.inline-menu .menu {
 		text-align: center;
@@ -405,14 +404,29 @@ div.object-fit[class*="panel-"] {
 ## with a flat button-like look
 --------------------------------------------------------------*/
 
-.inline-menu.button-menu ul,
-.inline-menu.button-menu .menu {
+.inline-menu.button-menu ul li a,
+.inline-menu.button-menu .menu li a {
 	text-align: center;
+}
+
+.inline-menu.button-menu.text-center ul,
+.inline-menu.button-menu.text-center .menu {
+	text-align: center;
+}
+
+.inline-menu.button-menu.text-left ul,
+.inline-menu.button-menu.text-left .menu {
+	text-align: left;
+}
+
+.inline-menu.button-menu.text-right ul,
+.inline-menu.button-menu.text-right .menu {
+	text-align: right;
 }
 
 .inline-menu.button-menu ul li,
 .inline-menu.button-menu .menu li {
-	margin-right: 10px;
+
 }
 
 .inline-menu.button-menu ul li:last-child,
@@ -448,14 +462,137 @@ div.object-fit[class*="panel-"] {
 	margin-top: 15px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 811px) {
 	.inline-menu.button-menu ul li,
 	.inline-menu.button-menu .menu li  {
-		margin: 0 0 10px 0;
+		margin-bottom: 15px;
 	}
 	.inline-menu.button-menu ul li:last-child,
 	.inline-menu.button-menu .menu li:last-child {
 		margin-bottom: 0;
+	}
+}
+
+/*
+* Horizontal Scrolls
+*/
+
+/*
+* hscroll-all
+*/
+
+.hscroll-all {
+
+}
+
+.hscroll-all.inline-menu > div,
+.hscroll-all.inline-menu > nav,
+.hscroll-all.inline-row .panel-grid-cell {
+	overflow: auto;
+	white-space: nowrap;
+	max-width: 100vw;
+	padding-top: 4px !important;
+	padding-bottom: 4px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.hscroll-all.inline-row .so-panel {
+	max-width: 360px;
+	white-space: break-spaces;
+}
+
+.hscroll-all.inline-menu .menu,
+.hscroll-all.inline-menu ul,
+.hscroll-mobile.inline-menu .menu,
+.hscroll-mobile.inline-menu ul {
+	width: 100%;
+}
+
+.hscroll-all.inline-row .so-panel + .so-panel {
+	margin-left: 0 !important;
+}
+
+.hscroll-all.inline-row .so-panel + .so-panel {
+	margin-left: 40px !important;
+}
+
+.hscroll-all.inline-menu ul li:last-child,
+.hscroll-all.inline-menu .menu li:last-child,
+.hscroll-all.inline-row[data-stretch-type="full-stretched"] .so-panel:last-child {
+	margin-right: 40px !important;
+}
+
+.hscroll-all.inline-menu ul li:first-child,
+.hscroll-all.inline-menu .menu li:first-child {
+	margin-left: 0 !important;
+}
+
+.hscroll-all.inline-row[data-stretch-type="full-stretched"] .so-panel:first-child,
+.hscroll-all.inline-row .so-panel:first-child  {
+	margin-left: 40px !important;
+}
+
+/*
+* hscroll-mobile & some rules for the above on mobile
+*/
+
+@media screen and (max-width: 811px) {
+	.hscroll-mobile.inline-menu .menu,
+	.hscroll-mobile.inline-menu ul,
+	.hscroll-mobile.inline-row .panel-grid-cell {
+		overflow: auto;
+		white-space: nowrap;
+		max-width: 100%;
+		padding-top: 4px !important;
+		padding-bottom: 4px !important;
+	}
+	div[data-stretch-type="full-stretched"] .hscroll-all.inline-menu ul li:first-child,
+	div[data-stretch-type="full-stretched"] .hscroll-all.inline-menu .menu li:first-child,
+	.hscroll-all.inline-menu > nav ul li:first-child,
+	.hscroll-all.inline-menu > nav .menu li:first-child,
+	.hscroll-all.inline-row[data-stretch-type="full-stretched"] .so-panel:first-child,
+	.hscroll-mobile.inline-row .so-panel:first-child {
+		margin-left: 15px !important;
+	}
+	.hscroll-all.inline-menu ul li:last-child,
+	.hscroll-all.inline-row .so-panel:last-child,
+	.hscroll-mobile.inline-menu .menu li:last-child,
+	.hscroll-mobile.inline-row .so-panel:last-child {
+		margin-right: 15px !important;
+	}
+	.hscroll-mobile .menu li + li {
+
+	}
+	div[data-stretch-type="full-stretched"] .hscroll-all.inline-menu .simplebar-track.simplebar-horizontal,
+	.hscroll-all.inline-menu > nav .simplebar-track.simplebar-horizontal {
+		left: 15px;
+		width: calc(100% - 30px);
+	}
+}
+
+@media screen and (min-width: 812px) {
+	.hscroll-all .simplebar-wrapper {
+		padding-bottom: 20px;
+	}
+	.hscroll-all .simplebar-track.simplebar-horizontal {
+		height: 20px;
+		cursor: grab;
+		pointer-events: all;
+	}
+	.hscroll-all .simplebar-dragging .simplebar-track.simplebar-horizontal {
+		cursor: grabbing;
+	}
+	div[data-stretch-type="full-stretched"] .hscroll-all.inline-menu ul li:first-child,
+	div[data-stretch-type="full-stretched"] .hscroll-all.inline-menu .menu li:first-child,
+	.hscroll-all.inline-menu > nav ul li:first-child,
+	.hscroll-all.inline-menu > nav .menu li:first-child {
+		margin-left: 40px !important;
+	}
+	div[data-stretch-type="full-stretched"] .hscroll-all .simplebar-track.simplebar-horizontal,
+	.hscroll-all.inline-menu > nav .simplebar-track.simplebar-horizontal {
+		left: 40px;
+		width: calc(100% - 80px);
 	}
 }
 
@@ -465,7 +602,7 @@ div.object-fit[class*="panel-"] {
 
 .row {
 	position: relative;
-	width: 100%;
+	min-width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	padding: 0;
@@ -473,9 +610,13 @@ div.object-fit[class*="panel-"] {
 	margin-right: -15px;
 }
 
+.ai-center {
+	align-items: center;
+}
+
 .col {
 	min-height: 0.125rem;
-	padding: 15px
+	padding: 7.5px 15px
 }
 
 .col.col-1,
@@ -735,6 +876,8 @@ select {
 
 .select2-container {
 	width: 100%;
+	max-width: 100%;
+	min-width: 100%;
 }
 
 body .select2 {
@@ -747,8 +890,6 @@ body .select2-dropdown {
 	width: 100%;
 }
 
-.woocommerce form .form-row.woocommerce-validated .select2-container,
-.woocommerce form .form-row.woocommerce-validated select,
 .wpsl-radius-dropdown,
 .wpsl-dropdown {
 	border: 1px solid #CCC;
@@ -758,6 +899,10 @@ body .select2-dropdown {
 .select2-container--default .selection .select2-selection--single {
 	border-radius: 0;
 	border: none;
+}
+
+body:not(.wp-admin) .select2-container--open .select2-dropdown {
+	top: 0;
 }
 
 .woocommerce #content table.cart td.actions .input-text,
@@ -781,10 +926,6 @@ body .select2-dropdown {
 	line-height: 1.5;
 	height: 100%;
 	width: 30px;
-}
-
-.select2-container {
-	max-width: 100%;
 }
 
 .select2-container .select2-dropdown {
@@ -1039,7 +1180,7 @@ body > .popup-css p {
 
 }
 
-@media screen and (max-width: 768px)  {
+@media screen and (max-width: 811px)  {
 
 	body > .popup-css,
 	body > .readypopup {
@@ -1176,7 +1317,7 @@ body > .popup-css.fullscreenvideo {
 	color: #404040;
 }
 
-@media screen and (max-width: 768px)  {
+@media screen and (max-width: 811px)  {
 
 	body > .popup-css.fullscreenvideo {
 		padding: 0;
@@ -1216,7 +1357,7 @@ body > .popup-css.fullscreenvideo {
 	position: relative;
 }
 
-/* These classe should help LCP & CLS */
+/* These classes should help LCP & CLS */
 
 .height-100 {
 	height: 100vh;

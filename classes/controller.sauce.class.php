@@ -5,12 +5,15 @@ class sauce_lib {
 	private static $_instance = null;
 	private $image_sizes;
 
-  public function __construct() {
+	public function __construct() {
 
-  	// Actions
-  	add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'), 20);
+		// Actions
+		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'), 20);
 		add_action('init', array($this, 'post_exclude'), 1);
 		add_action('init', array($this, 'add_image_sizes'), 10);
+
+		// These here adds classes post or body
+		add_filter('post_class', array($this, 'enumerate_posts_by_class'), 10, 3);
 
 		/* WC / UM / Shield Compat */
 		add_action('woocommerce_lostpassword_form', array($this, 'wc_um_shield_compat_lostpass'), 9);
@@ -38,10 +41,97 @@ class sauce_lib {
 			add_filter('mod_rewrite_rules', array($this, 'wpml_wc_fix_rewritebase'));
 		}
 
-  }
+	}
+
+	/*
+	* Excludes post to make them appear only once in page
+	*/
 
 	public function post_exclude() {
 		$posts__not_in = post_exclude::instance();
+	}
+
+	/*
+	* Custom is_archive in order to simplify development
+	*/
+
+	public function is_archive() {
+
+		$is_archive = (is_home() || is_category() || is_tag() || is_author() || is_search() || is_tax() || is_shop()) ? true : false;
+
+		/* ACF field to set pages to show as archives */
+		if(function_exists('get_field')) {
+			$is_archive = (get_field('as_archive') && $is_archive == false) ? true : $is_archive;
+		}
+
+		$is_archive = apply_filters('sauce_is_archive', $is_archive);
+
+		return $is_archive;
+	}
+
+	/*
+	* Custom is_woocommerce in order to simplify development
+	*/
+
+	public function is_woocommerce() {
+
+		if(!function_exists('is_woocommerce')) return false;
+
+		$is_woocommerce = (is_woocommerce() || is_cart() || is_checkout() || is_account_page()) ? true : false;
+
+		$is_woocommerce = apply_filters('sauce_is_archive', $is_woocommerce);
+
+		return $is_woocommerce;
+
+	}
+
+	/*
+	* Returns the current post number
+	*/
+
+	public function current_post_count() {
+    global $wp_query;
+    return $wp_query->current_post;
+  }
+
+	/*
+	* Enumerate Posts By Class
+	*/
+
+	public function enumerate_posts_by_class($classes) {
+
+	  // An array of types where this thing is activated
+	  $types = apply_filters('enumerated_post_types', array('post'));
+
+	  if(is_single() && is_main_query()) return $classes;
+	  if(!in_array(get_post_type(), $types)) return $classes;
+
+	  $current = sl_()->current_post_count();
+
+		if($classes)
+
+	  switch($current) {
+	    case 0 :
+	      $classes[] = 'first-post';
+	      break;
+	    case 1 :
+	      $classes[] = 'second-post';
+	      break;
+	    case 2 :
+	      $classes[] = 'third-post';
+	      break;
+	    case 3 :
+	      $classes[] = 'forth-post';
+	      break;
+	    default :
+	      $classes[] = 'beyond-forth';
+	      break;
+	  }
+
+		$classes = apply_filters('enumerated_post_classes', $classes, $current);
+
+	  return array_unique($classes);
+
 	}
 
 	/*
@@ -49,9 +139,27 @@ class sauce_lib {
 	*/
 
 	public function sopb_add_row_classes($classes, $row) {
+
+		// add collapse order class
 	  if(isset($row['style']['collapse_order'])) {
 	    $classes[] = $row['style']['collapse_order'];
 	  }
+
+		// Check if row has bg image
+	  if(isset($row['style']['background_image_attachment']) && !empty($row['style']['background_image_attachment'])) {
+	    $classes[] = 'has-bg-image';
+	  }
+
+	  // Check if row has bg color
+	  if(isset($row['style']['background']) && !empty($row['style']['background'])) {
+	    $classes[] = 'has-bg-color';
+	  }
+
+	  // Check if row has bg color
+	  if(isset($row['style']['cell_alignment']) && !empty($row['style']['cell_alignment'])) {
+	    $classes[] = 'cell-'.$row['style']['cell_alignment'];
+	  }
+
 	  return $classes;
 	}
 

@@ -353,7 +353,14 @@ function same_height(selector, margin) {
 }
 
 function ready_popup() {
-	// readypopup requires js-cookie to work
+
+	/* 
+	* readypopup: automatic popup on document ready
+	* requires js-cookie to work
+	* 
+	* WARNING: readypopup has been replaced by popup_system 'auto' class. This function is here just for compatibility
+	*/
+
 	var body_offset_y = 0
 	var is_cookie = Cookies.get('popup-closed')
 	var is_popup = $('.readypopup').length
@@ -362,89 +369,95 @@ function ready_popup() {
 
 	if(!is_cookie && is_popup && ua.indexOf('bot') == -1 && ua.indexOf('Lighthouse') == -1) {
 
-			var ready = $('.readypopup')
-      var time = get_class_value(ready, 'cookie')
-      var cookie_time = (time) ? time : 1
+		var ready = $('.readypopup')
+		var time = get_class_value(ready, 'cookie')
+		var cookie_time = (time) ? time : 1
 
-			ready.addClass('a-disappear popup-css')
-			ready.closest('.so-panel').css('margin-bottom','0')
-			ready.parent('div').addClass('readypopup-parent readypopup-active')
+		ready.addClass('a-disappear popup-css')
+		ready.closest('.so-panel').css('margin-bottom','0')
+		ready.parent('div').addClass('readypopup-parent readypopup-active')
 
-      if($(".popup-content", ready).length < 1) {
-          $("> div", ready).addClass('popup-content').wrap('<div class="popup-wrapper"></div>')
-      }
+		if($(".popup-content", ready).length < 1) {
+			$("> div", ready).addClass('popup-content').wrap('<div class="popup-wrapper"></div>')
+		}
 
-      $('<div class="readypopup-close"></div>').appendTo($('.popup-wrapper', ready))
+		$('<div class="readypopup-close"></div>').appendTo($('.popup-wrapper', ready))
 
-			if($('.readypopup').hasClass('fullscreenvideo')) {
-				$('<div class="video-controls"><div class="unmute"><a>Attiva audio</a></div><div class="button-close"><a>Salta il video</a></div></div>').appendTo($('.popup-wrapper', ready))
-				$('.unmute').click(function(){
-					$('body > .readypopup video').prop('muted', false)
+		if($('.readypopup').hasClass('fullscreenvideo')) {
+			
+			$('<div class="video-controls"><div class="unmute"><a>Attiva audio</a></div><div class="button-close"><a>Salta il video</a></div></div>').appendTo($('.popup-wrapper', ready))
+			
+			$('.unmute').click(function(){
+				$('body > .readypopup video').prop('muted', false)
+			})
+
+		}
+
+		window.requestAnimationFrame(function(){
+			
+			$('<div class="readypopup-background a-disappear"></div>').appendTo('body')
+
+			if ($("body").height() > $(window).height()) {
+				body_offset_y = $(window).scrollTop()
+				$('html').addClass('lock-body')
+				$('body').css('margin-top', -body_offset_y)
+				if($('body').hasClass('scolled')) $('body').addClass('as-scrolled')
+			}
+
+			ready.appendTo('body')
+			ready.toggleClass('a-appear a-disappear')
+			$('.readypopup-background').toggleClass('a-appear a-disappear')
+			
+			window.requestAnimationFrame(function(){
+				new SimpleBar($('.popup-content', ready)[0])
+				if($('select', ready).length) { $('select', ready).select2() }
+			})
+
+		})
+
+		$( ".readypopup-close, .readypopup-background, .readypopup .ready-accept, .readypopup .button-close, .readypopup a" ).click(function(e) {
+
+        	e.preventDefault()
+
+			var popup = $('body > .readypopup')
+			var parent = $('.readypopup-active')
+			var $this = $(this)
+
+			$('.readypopup-background').toggleClass('a-appear a-disappear')
+			popup.toggleClass('a-appear a-disappear')
+
+        	$('html').removeClass('lock-body')
+			$('body').css('margin-top', '')
+			$(window).scrollTop(body_offset_y)
+			$('.site-header').removeClass('as-scrolled')
+
+			setTimeout(function(){
+				popup.appendTo(parent)
+				parent.removeClass('readypopup-active')
+				$('.readypopup-background').remove()
+				$('body > .readypopup video').remove()
+				$('.readypopup video').remove()
+				Cookies.set('popup-closed', '1', { expires: cookie_time })
+				if($this.attr('href') !== "" && typeof $this.attr('href') !== 'undefined') {
+					window.location.href = $this.attr('href')
+				}
+			}, 550)
+
+		})
+
+		if($('.readypopup').hasClass('fullscreenvideo')) {
+			var contentVideo = document.getElementsByClassName("elementor-video")[0]
+			var promise = contentVideo.play()
+
+			if (promise !== undefined) {
+				promise.then(function() {
+					console.log('playing')
+					$(".basil-loader").addClass('a-disappear')
+				}, function(e) {
+					$('.readypopup-close').click()
 				})
 			}
-
-      window.requestAnimationFrame(function(){
-        $('<div class="readypopup-background a-disappear"></div>').appendTo('body')
-  			// $(".readypopup").find('.ow-button-base a').removeAttr('href')
-
-  			if ($("body").height() > $(window).height()) {
-  				body_offset_y = $(window).scrollTop()
-          $('html').addClass('lock-body')
-  				$('body').css('margin-top', -body_offset_y)
-  				if($('body').hasClass('scolled')) $('body').addClass('as-scrolled')
-  			}
-        ready.appendTo('body')
-				ready.toggleClass('a-appear a-disappear')
-				$('.readypopup-background').toggleClass('a-appear a-disappear')
-        window.requestAnimationFrame(function(){
-          new SimpleBar($('.popup-content', ready)[0])
-          if($('select', ready).length) { $('select', ready).select2() }
-  			})
-			})
-
-			$( ".readypopup-close, .readypopup-background, .readypopup .ready-accept, .readypopup .button-close, .readypopup a" ).click(function(e) {
-
-        e.preventDefault()
-
-				var popup = $('body > .readypopup')
-				var parent = $('.readypopup-active')
-        var $this = $(this)
-
-				$('.readypopup-background').toggleClass('a-appear a-disappear')
-				popup.toggleClass('a-appear a-disappear')
-
-        $('html').removeClass('lock-body')
-				$('body').css('margin-top', '')
-				$(window).scrollTop(body_offset_y)
-				$('.site-header').removeClass('as-scrolled')
-
-				setTimeout(function(){
-					popup.appendTo(parent)
-					parent.removeClass('readypopup-active')
-					$('.readypopup-background').remove()
-					$('body > .readypopup video').remove()
-					$('.readypopup video').remove()
-					Cookies.set('popup-closed', '1', { expires: time })
-          if($this.attr('href') !== "" && typeof $this.attr('href') !== 'undefined') {
-            window.location.href = $this.attr('href')
-          }
-				}, 550)
-
-			})
-
-			if($('.readypopup').hasClass('fullscreenvideo')) {
-				var contentVideo = document.getElementsByClassName("elementor-video")[0]
-				var promise = contentVideo.play()
-
-				if (promise !== undefined) {
-					promise.then(function() {
-						console.log('playing')
-						$(".basil-loader").addClass('a-disappear')
-					}, function(e) {
-						$('.readypopup-close').click()
-					})
-				}
-			}
+		}
 
 	}
 }
@@ -472,14 +485,21 @@ function popup_system(elem) {
 
     if(popup.hasClass('auto')) {
 
-      var closed_cookie = get_cookie_name(popup, 'id', 'closed');
-      var is_closed =  Cookies.get(closed_cookie)
-    	var is_logged = $('.logged-in').length
-    	var ua = navigator.userAgent
+		/* 
+		* Auto popups open on document ready
+		* can be customized as follows:
+		* 'id-{random_index}' as class -> identifies that specific popup
+		* 'expire-{INT}' as class -> used to set specific 'closed' status duration in days
+		*/
 
-      if(!is_closed && ua.indexOf('bot') == -1 && ua.indexOf('Lighthouse') == -1) {
-        open(popup)
-      }
+		var closed_cookie = get_cookie_name(popup, 'id', 'closed');
+		var is_closed =  Cookies.get(closed_cookie)
+		var is_logged = $('.logged-in').length
+		var ua = navigator.userAgent
+
+		if(!is_closed && ua.indexOf('bot') == -1 && ua.indexOf('Lighthouse') == -1) {
+			open(popup)
+      	}
     }
 
 	})
@@ -488,31 +508,37 @@ function popup_system(elem) {
 
 		var container = $(this).closest('.popup-container')
 		var popup = $(container).find(elem)
-    open(popup)
+
+    	open(popup)
 
 	})
 
-  $('.popup .popup-close, .popup .popup-background, .popup .popup-accept, .popup .button-close, .popup a').click(function(){
-    close()
-  })
+	$('.popup .popup-close, .popup .popup-background, .popup .popup-accept, .popup .button-close, .popup a').click(function(e){
+		
+		// Add some exceptions
+		if($(this).hasClass('reset_variations')) return;
+
+		close()
+
+	})
 
 	$(".popup-trigger .lsow-social-list a").click(function(e) {
-    e.stopPropagation()
+    	e.stopPropagation()
 	})
 
-  function get_cookie_name(popup, value, suffix) {
-    var value = get_class_value(popup, value)
-    return (value) ? 'popup-'+value+'-'+suffix : 'popup-'+suffix;
-  }
+	function get_cookie_name(popup, value, suffix) {
+		var value = get_class_value(popup, value)
+		return (value) ? 'popup-'+value+'-'+suffix : 'popup-'+suffix;
+	}
 
-  function build(popup) {
+	function build(popup) {
 
-    popup.addClass('a-disappear popup-css')
+		popup.addClass('a-disappear popup-css')
 		popup.closest('.so-panel').css('margin-bottom','0')
 
-    if($(".popup-content", popup).length < 1) {
-        $("> div", popup).addClass('popup-content').wrap('<div class="popup-wrapper"></div>')
-    }
+		if($(".popup-content", popup).length < 1) {
+			$("> div", popup).addClass('popup-content').wrap('<div class="popup-wrapper"></div>')
+		}
 
 		$('<div class="popup-close"></div>').appendTo($('.popup-wrapper', popup))
 		$('.popup-close', popup).addClass(popup_close.replace(/\./g, ""))
@@ -521,94 +547,99 @@ function popup_system(elem) {
 		popup.closest('.popup-container').find('.popup-trigger').addClass(popup_trigger.replace(/\./g, ""))
 		popup.parent('div').addClass('popup-parent')
 
-  }
+	}
 
-  function close() {
+	function close() {
 
-    var popup = $('body > .actual-popup')
-    var parent = $('.popup-active')
-    var $this = $(this)
+		var popup = $('body > .actual-popup')
+		var parent = $('.popup-active')
+		var $this = $(this)
 
-    $('.popup-background').toggleClass('a-appear a-disappear')
-    popup.toggleClass('a-appear a-disappear')
+		$('.popup-background').toggleClass('a-appear a-disappear')
+		popup.toggleClass('a-appear a-disappear')
 
-    $('html').removeClass('lock-body')
-    $('body').css('margin-top', '')
-    $(window).scrollTop(body_offset_y)
-    $('.site-header').removeClass('as-scrolled')
+		$('html').removeClass('lock-body')
+		$('body').css('margin-top', '')
+		$(window).scrollTop(body_offset_y)
+		$('.site-header').removeClass('as-scrolled')
 
-    setTimeout(function() {
+		setTimeout(function() {
 
-      popup.appendTo(parent)
-      parent.removeClass('popup-active')
-      $('.popup-background').unbind()
+		popup.appendTo(parent)
+		parent.removeClass('popup-active')
+		$('.popup-background').unbind()
 
-      if(popup.hasClass('auto')) {
-        var closed_cookie = get_cookie_name(popup, 'id', 'closed')
-        if(!Cookies.get(closed_cookie)) {
-          var time = get_class_value(popup, 'expire')
-          var cookie_time = (time) ? parseInt(time) : 1;
-          Cookies.set(closed_cookie, '1', { expires: cookie_time })
-        }
-      }
+		if(popup.hasClass('auto')) {
+			var closed_cookie = get_cookie_name(popup, 'id', 'closed')
+			if(!Cookies.get(closed_cookie)) {
+			var time = get_class_value(popup, 'expire')
+			var cookie_time = (time) ? parseInt(time) : 1;
+			Cookies.set(closed_cookie, '1', { expires: cookie_time })
+			}
+		}
 
-      if($this.attr('href') !== "" && typeof $this.attr('href') !== 'undefined') {
-        window.location.href = $this.attr('href')
-      }
+		if($this.attr('href') !== "" && typeof $this.attr('href') !== 'undefined') {
+			window.location.href = $this.attr('href')
+		}
 
-    }, 550)
+		}, 550)
 
-  }
+	}
 
-  function open(popup) {
+	function open(popup) {
 
-    var current_bg = popup.data('backclass')
-    var container = popup.closest('.popup-container')
+		var current_bg = popup.data('backclass')
+		var container = popup.closest('.popup-container')
 
-    if(!popup.hasClass('actual-popup')) popup.addClass('actual-popup')
+		if(!popup.hasClass('actual-popup')) popup.addClass('actual-popup')
 
-    if(container.hasClass('popup-parent')) {
-      container.addClass('popup-active')
-    } else {
-      container.find('.popup-parent').addClass('popup-active')
-    }
+		if(container.hasClass('popup-parent')) {
+		container.addClass('popup-active')
+		} else {
+		container.find('.popup-parent').addClass('popup-active')
+		}
 
-    if($('select', popup).hasClass('select2-hidden-accessible')) {
-      $('select', popup).select2('destroy')
-    }
+		if($('select', popup).hasClass('select2-hidden-accessible')) {
+		$('select', popup).select2('destroy')
+		}
 
-    if ($("body").height() > $(window).height()) {
-      body_offset_y = $(window).scrollTop()
-      $('html').addClass('lock-body')
-      $('body').css('margin-top', -body_offset_y)
-      if($('body').hasClass('scrolled')) $('body').addClass('as-scrolled')
-    }
+		if ($("body").height() > $(window).height()) {
+		body_offset_y = $(window).scrollTop()
+		$('html').addClass('lock-body')
+		$('body').css('margin-top', -body_offset_y)
+		if($('body').hasClass('scrolled')) $('body').addClass('as-scrolled')
+		}
 
-    popup.appendTo('body')
-    $('.popup-background').addClass(current_bg.replace(/\./g, ""))
+		popup.appendTo('body')
+		$('.popup-background').addClass(current_bg.replace(/\./g, ""))
 
-    setTimeout(function(){
-      window.requestAnimationFrame(function(){
-        popup.toggleClass('a-appear a-disappear')
-        $('.popup-background').toggleClass('a-appear a-disappear')
-      })
-    }, 100)
+		setTimeout(function(){
+		window.requestAnimationFrame(function(){
+			popup.toggleClass('a-appear a-disappear')
+			$('.popup-background').toggleClass('a-appear a-disappear')
+		})
+		}, 100)
 
-    setTimeout(function(){
-      window.requestAnimationFrame(function(){
-        new SimpleBar($('.popup-content', popup)[0])
-        if($('select', popup).length) { $('select', popup).select2() }
-      })
-    }, 100)
+		setTimeout(function(){
+		window.requestAnimationFrame(function(){
+			new SimpleBar($('.popup-content', popup)[0])
+			if($('select', popup).length) { $('select', popup).select2() }
+		})
+		}, 100)
 
-    $(current_bg).click(function() {
-      close()
-      if(current_bg != '.popup-background') $(this).removeClass(current_bg.replace(/\./g, ""))
-    })
+		$(current_bg).click(function() {
+		close()
+		if(current_bg != '.popup-background') $(this).removeClass(current_bg.replace(/\./g, ""))
+		})
 
-  }
+	}
 
 }
+
+/*
+* basil_modal creates custom modals
+* It is to be checked how it works, since it's a long time there's no practical use of it
+*/
 
 function basil_modal() {
 
@@ -724,222 +755,6 @@ function is_on_screen(elem)
 	}
 }
 
-function sauce_commerce() {
-
-	//* Wrap thumbnail in archives to show gradient around **//
-
-	$('.products li.product img').each(function(){
-		$(this).wrap('<div class="thumb-wrap"></div>')
-	})
-
-	//** Ajax Add To Cart Dynamics **//
-
-	$( document.body ).on( 'added_to_cart', function(){
-		var buyBox = $('.basil-buy-product')
-
-		if(buyBox.length) {
-			setTimeout(function(){
-
-				var Atc = $('.added_to_cart', buyBox)
-
-				buyBox.each(function(){
-
-					if($('.remove-added-to-cart', this).length) return
-
-					$('.added_to_cart', this).append('<span class="remove-added-to-cart"></span>')
-					$('.added_to_cart', this).addClass('a-appear')
-
-					$('.remove-added-to-cart', this).click(function(e){
-
-						e.preventDefault()
-
-						var thisAtc = $(this).closest('.added_to_cart')
-						var thisBuyButt = $(this).closest('.basil-buy-product').find('.added')
-
-						$(this).closest('.basil-buy-product').find('.go-to-product').toggleClass('a-appear a-disappear')
-
-						thisAtc.removeClass('a-appear')
-						thisBuyButt.removeClass('added')
-
-						setTimeout(function(){
-							thisAtc.remove()
-						}, 550)
-
-					})
-
-				})
-
-			}, 100)
-		}
-	})
-
-	$('.basil-buy-product .add_to_cart_button').click(function(e){
-		e.preventDefault()
-		var add_to_qty = $(this).data('quantity')
-		console.log(add_to_qty)
-
-		$('+ .go-to-product', this).toggleClass('a-appear a-disappear')
-
-	})
-
-	/** Basil Woo Set Quantity **/
-
-	var current_qty
-	var steps
-	var qty_parent
-	var qty_elem
-	var new_qty
-	var change_qty_to
-	var change_data_to
-	var woo_qty_wrap
-	var is_cart = $('body.woocommerce-cart').length
-
-	function wooSetQty() {
-
-		$('.quantity input').each(function() {
-			steps = parseInt($(this).attr('step'))
-			if(!steps) steps = basil_woo_steps
-
-			parent = $(this).closest('quantity')
-
-			if(!$(this).hasClass('quantity-active')) {
-
-				$(this).wrap('<span class="woo-quantity-wrap"></span>').addClass('quantity-active')
-				woo_qty_wrap = $(this).closest('.woo-quantity-wrap')
-				$(woo_qty_wrap).append('<span class="woo-increment"></span>')
-				$(woo_qty_wrap).prepend('<span class="woo-decrement"></span>')
-
-			}
-
-			$( ".woo-decrement").unbind( "click" )
-			$( ".woo-increment").unbind( "click" )
-
-		})
-
-		$('.woo-decrement').click(function(){
-			steps = parseInt($(this).closest('.woo-quantity-wrap').find('.qty').attr('step'))
-			if(!steps) steps = basil_woo_steps
-			change_qty_to = $(this).closest('.woo-quantity-wrap').find('.qty')
-			current_qty = $(change_qty_to).val()
-			if(current_qty > 0) {
-				new_qty = parseFloat(current_qty) - steps
-				$(change_qty_to).val(new_qty).change()
-			}
-			if(is_cart) {
-				$('.actions .button').prop('disabled',false)
-			}
-		})
-
-		$('.woo-increment').click(function(){
-			steps = parseInt($(this).closest('.woo-quantity-wrap').find('.qty').attr('step'))
-			if(!steps) steps = basil_woo_steps
-			change_qty_to = $(this).closest('.woo-quantity-wrap').find('.qty')
-			current_qty = $(change_qty_to).val()
-
-				new_qty = parseFloat(current_qty) + steps
-				$(change_qty_to).val(new_qty).change()
-
-			if(is_cart) {
-				$('.actions .button').prop('disabled',false)
-			}
-		})
-	}
-
-	function stepsCorrect(qty_elem) {
-		var qty = qty_elem.val()
-		var steps_correct = parseInt($(qty_elem).attr('step'))
-		if(!steps_correct) steps_correct = basil_woo_steps
-		var d_int = parseInt(qty/steps_correct)
-		var change_data_to = $(this).closest('.product').find('.add_to_cart_button')
-		console.log(d_int)
-		var corrected = steps_correct * d_int
-		$(qty_elem).val(corrected)
-		$(change_data_to).attr('data-quantity', corrected)
-	}
-
-	function stepsAlert(qty_elem) {
-		var qty = qty_elem.val()
-		steps = qty_elem.attr('step')
-		if(!steps) steps = basil_woo_steps
-		if(qty % steps !== 0) {
-			$.modal({
-				'title' : '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><br/>Ooops',
-				'message' : 'Puoi acquistare prodotti solo per multipli di '+steps+'.',
-				'buttons' : {
-					'Ok' : {
-						'class' : 'green',
-						'action': function(){
-							stepsCorrect(qty_elem)
-						}
-					}
-				}
-			})
-		}
-	}
-
-	if(is_cart) {
-		$(document).ajaxComplete(function( event, xhr, settings ) {
-			console.log(settings)
-
-				wooSetQty()
-
-		})
-	}
-
-	$('.basil-woo-quantity').each(function(){
-		current_qty = $(this).val()
-		if(current_qty) {
-			var min = parseInt($(this).attr('step'))
-			if(current_qty < min) current_qty = min
-			change_data_to = $(this).closest('.product').find('.add_to_cart_button')
-			$(change_data_to).attr('data-quantity', current_qty)
-			$(this).val(current_qty)
-		}
-		stepsCorrect($(this))
-		$(this).change(function(){
-			qty_elem = $(this)
-			stepsAlert(qty_elem)
-		})
-	})
-
-
-
-	$('.basil-woo-decrement').click(function(){
-		change_qty_to = $(this).closest('.product').find('.basil-woo-quantity')
-		change_data_to = $(this).closest('.product').find('.add_to_cart_button')
-		current_qty = $(change_qty_to).val()
-
-		if(current_qty > 0) {
-			steps = parseInt($(this).closest('.basil-quantity-wrap').find('.basil-woo-quantity').attr('step'))
-			if(!steps) steps = basil_woo_steps
-			new_qty = parseFloat(current_qty) - steps
-			$(change_qty_to).val(new_qty).change()
-			$(change_data_to).attr('data-quantity', new_qty)
-		}
-	})
-
-	$('.basil-woo-increment').click(function(){
-		change_qty_to = $(this).closest('.product').find('.basil-woo-quantity')
-		change_data_to = $(this).closest('.product').find('.add_to_cart_button')
-		current_qty = $(change_qty_to).val()
-
-		steps = parseInt($(this).closest('.basil-quantity-wrap').find('.basil-woo-quantity').attr('step'))
-		if(!steps) steps = basil_woo_steps
-		new_qty = parseFloat(current_qty) + steps
-		$(change_qty_to).val(new_qty).change()
-		$(change_data_to).attr('data-quantity', new_qty)
-	})
-
-	$('.basil-woo-quantity').on('change', function(){
-		new_qty = $(this).val()
-		change_data_to = $(this).closest('.product').find('.add_to_cart_button')
-		$(change_data_to).attr('data-quantity', new_qty)
-	})
-
-	wooSetQty()
-
-}
-
 function whatsapp_link() {
   if(!$('a[href*="api.whatsapp.com"]').length) return
 	$('a[href*="api.whatsapp.com"]').click(function(e){
@@ -981,25 +796,22 @@ function enable_localscroll() {
 
 }
 
-$(document).ready(function() {
+function hscroll_device() {
+  Array.prototype.forEach.call(
+    document.querySelectorAll('.hscroll-all.inline-menu > div'),
+    (el) => new SimpleBar(el)
+  );
+  Array.prototype.forEach.call(
+    document.querySelectorAll('.hscroll-all.inline-menu > nav'),
+    (el) => new SimpleBar(el)
+  );
+  Array.prototype.forEach.call(
+    document.querySelectorAll('.hscroll-all.inline-row .panel-grid-cell'),
+    (el) => new SimpleBar(el)
+  );
+}
 
-	ui_timer()
-
-	window.addEventListener('keydown', tab_user)
-
-	hide_site_header()
-	scroll_check({top_offset: 125})
-	elem_fullheight()
-	whatsapp_link()
-	max_width()
-  $('.longer').longer_box();
-	popup_system('.popup')
-	ready_popup()
-	basil_modal()
-	// sauce_commerce()
-	no_footer_margin()
-  enable_localscroll()
-
+function select2_init() {
   if($('select').length) {
     $('select').each(function() {
       if($(this).hasClass('hide-search')) {
@@ -1010,6 +822,7 @@ $(document).ready(function() {
         $(this).select2()
       }
     })
+
     $('select').on('change', function(){
       setTimeout(function() {
         $('select').each(function(){
@@ -1026,5 +839,24 @@ $(document).ready(function() {
       }, 100)
     })
   }
+}
+
+$(document).ready(function() {
+
+	ui_timer()
+	window.addEventListener('keydown', tab_user)
+	hide_site_header()
+	scroll_check({top_offset: 125})
+	elem_fullheight()
+	whatsapp_link()
+	max_width()
+	$('.longer').longer_box();
+	popup_system('.popup')
+	ready_popup()
+	basil_modal()
+	no_footer_margin()
+	enable_localscroll()
+	hscroll_device()
+	select2_init()
 
 })

@@ -1,6 +1,41 @@
 # Sauce Library Changelog
 This changelog will still be used to keep track of changes, as the github repo won't necessarily follow our internal release history.
-* Current release: 0.6.5
+* Current release: 0.8.0
+
+## v.0.8.0
+* sauce:        removed sauce_commerce
+* sauce:        added some context to popup_system 'auto' 'id-' and 'expire-' classes
+* sauce:        added exception to popup_system close method
+* general:      removed unused files from plugin folder
+
+## v.0.7.0
+* functions:    sauce_create_popup did not apply $settings['group'] classes correctly
+* css:          inline-menu allows for text-center, text-right, text-left classes to align the menu li's
+* css:          enforced select2 to be always 100% width (might come back to this decision)
+* css:          added ai-center to .row simple grid to set Align-Items: Center
+* css:          better handling for hscroll-all with inline-menu button-menu classes
+* css:          better ux for hscroll-all on desktop
+
+## v.0.6.7
+* sauce:    sauce() function renamed to sl_()
+* sauce:    sl_()->is_woocommerce() method provides a convenient way to detect woocommerce pages more consistently, as the default is_woocommerce() function does not always return true (f.eg. for cart or checkout)
+* css:      inline-menu labels no longer aligned right
+* js:       added hscroll_device that enable hz scrolling
+ * add .hscroll-all to .inline-menu or .inline-row elements in order to enable hz scroll on all devices using simplebar
+ * add .hscroll-mobile to .inline-menu or .inline-row elements (Page Builder by SiteOrigin rows) to enable hz scroll on max: 811px only devices using browser native UI
+
+## v.0.6.6
+* sauce:  sauce instance is now loaded on init hook, p=1, via load_sauce_on_init
+* sauce:  sauce()->is_archive() method provides a convenient way to detect archives, it is expandable via the sauce_is_archive filter
+* sauce:  sauce->current_post_count() method returns the current post number straight from global $wp_query
+* sauce:  enumerate_posts_by_class adds an enumerated class to posts.
+ * 'enumerated_post_types' filter allows to extend enumeration to more post types (default: post)
+ * 'enumerated_post_classes' filter allows to edit added classes
+* sauce: SiteOrigin Page Builder rows now get these classes:
+ * [collapse_order] value if set
+ * [cell-alignment] value if set
+ * 'has-bg-image' if row has bg image
+ * 'has-bg-color' if row has bg color
 
 ## v.0.6.5
 * popup_system:   slightly refactored code to include readypopup more coherently in the system. Readypopup are now called 'auto popup' and they're activated via the 'auto' class applied to a standard 'popup'. An auto popup can have two class values:

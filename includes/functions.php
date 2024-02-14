@@ -11,18 +11,14 @@ function sauce_create_popup($content, $trigger, $settings = null) {
     $settings
   );
 
-  $prefixes = $settings['group'];
   $elements = array('wrap', 'parent-css', 'popup', 'pp-content', 'trigger');
 
   $classes = array();
 
-
   foreach($elements as $el) {
     $classes[$el][] = ($el != 'popup') ? 'popup-'.$el : $el;
     if(isset($settings['group']) && !empty($settings['group'])) {
-      foreach($settings['group'] as $pre) {
-        $classes[$el][] = $pre.'-'.$el;
-      }
+        $classes[$el][] = $settings['group'].'-'.$el;
     }
   }
 
